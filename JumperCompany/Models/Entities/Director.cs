@@ -14,4 +14,9 @@ public partial class Director
     public string? Surname { get; set; }
 
     public virtual ICollection<Agent> Agents { get; set; } = new List<Agent>();
+
+    public override string ToString()
+    {
+        return $"|{DirectorId}| {LastName} {FirstName} {Surname}";
+    }
 }

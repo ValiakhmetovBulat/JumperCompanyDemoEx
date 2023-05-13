@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Windows.Media;
 
 namespace JumperCompany.Models.Entities;
 
@@ -35,7 +36,7 @@ public partial class Agent
 
     public virtual ICollection<MinAgentPriceHistory> MinAgentPriceHistories { get; set; } = new List<MinAgentPriceHistory>();
 
-    public virtual ICollection<ProductSale> ProductSales { get; set; } = new List<ProductSale>();
+    public virtual ICollection<ProductSale> ProductSales { get; set; } = new List<ProductSale>();    
 
     [NotMapped]
     public string AgentLogoPath => "/Resources" + AgentLogo;
@@ -45,6 +46,9 @@ public partial class Agent
 
     [NotMapped]
     public int AgentDiscountAmount => CountAgentDiscount();
+
+    [NotMapped]
+    public SolidColorBrush AgentBackgroundDiscount => AgentDiscountAmount >= 25 ? new SolidColorBrush(Colors.LightGreen) : new SolidColorBrush(Colors.White);
 
     public int CountSalesForYear()
     {

@@ -134,7 +134,9 @@ namespace JumperCompany
 
         private void ButtonAddAgent_Click(object sender, RoutedEventArgs e)
         {
-
+            AddEditAgentWindow addEditAgentWindow = new AddEditAgentWindow(new Agent());
+            addEditAgentWindow.Show();
+            this.Close();
         }
 
         private void comboAgentSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -151,15 +153,56 @@ namespace JumperCompany
                 MessageBox.Show("Выберите агента, которого желаете удалить нажатием на карточку");
                 return;
             }
-            if ((MessageBox.Show("Выбранный агент будет удален. Продолжить?", "Удаление агента", MessageBoxButton.YesNo, MessageBoxImage.Question)) == MessageBoxResult.Yes)
+            else if (selectedAgents.Count == 1)
             {
-                var db = JumperDbContext.GetContext();
-                db.Agents.RemoveRange(selectedAgents);
-                db.SaveChanges();
-                MessageBox.Show("Агент был успешно удален");
-                _agents = db.Agents.ToList();
-                listViewAgents.ItemsSource = _agents;
-                SortAgents();
+                if (selectedAgents.FirstOrDefault().ProductSales.Count > 0)
+                {
+                    MessageBox.Show("У агента есть информация о реализации продукции", "Агент не может быть удален");
+                    return;
+                }
+                if ((MessageBox.Show("Выбранный агент будет удален. Продолжить?", "Удаление агента", MessageBoxButton.YesNo, MessageBoxImage.Question)) == MessageBoxResult.Yes)
+                {
+                    var db = JumperDbContext.GetContext();
+                    db.Agents.RemoveRange(selectedAgents);
+                    db.SaveChanges();
+                    MessageBox.Show("Агент был успешно удален");
+                    _agents = db.Agents.ToList();
+                    listViewAgents.ItemsSource = _agents;
+                    SortAgents();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Единовременно можно удалить только одного агента");
+            }
+            
+        }
+
+        private void ButtonEditAgent_Click(object sender, RoutedEventArgs e)
+        {
+            AddEditAgentWindow addEditAgentWindow = new AddEditAgentWindow((sender as Button).DataContext as Agent);
+            addEditAgentWindow.Show();
+            this.Close();
+        }
+
+        private void ButtonChangePriority_Click(object sender, RoutedEventArgs e)
+        {
+            var agentsToChangePriority = listViewAgents.SelectedItems.Cast<Agent>().ToList();
+            ChangePriorityWindow changePriorityWindow = new ChangePriorityWindow(agentsToChangePriority);
+
+            changePriorityWindow.Show();
+            this.Close();
+        }
+
+        private void listViewAgents_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (listViewAgents.SelectedItems.Count > 1)
+            {
+                ButtonChangePriority.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ButtonChangePriority.Visibility = Visibility.Hidden;
             }
         }
     }

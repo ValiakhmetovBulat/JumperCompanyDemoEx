@@ -23,7 +23,7 @@
             <ComboBox x:Name="comboAgentTypesFilter" SelectionChanged="comboAgentTypesFilter_SelectionChanged" ></ComboBox>
             <ComboBox x:Name="comboAgentSort" SelectionChanged="comboAgentSort_SelectionChanged" Width="500"></ComboBox>
         </StackPanel>
-        <ListView x:Name="listViewAgents" Grid.Row="1">
+        <ListView x:Name="listViewAgents" Grid.Row="1" SelectionChanged="listViewAgents_SelectionChanged">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Vertical" HorizontalAlignment="Center"></WrapPanel>
@@ -32,8 +32,9 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Black" BorderThickness="2 2 2 2">
-                        <Grid>
+                        <Grid Background="{Binding AgentBackgroundDiscount}">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
@@ -59,6 +60,7 @@
                                 <TextBlock Text="{Binding AgentDiscountAmount}"></TextBlock>
                                 <TextBlock Text="%"></TextBlock>
                             </StackPanel>
+                            <Button Content="Изменить" x:Name="ButtonEditAgent" Click="ButtonEditAgent_Click" Grid.Column="3"></Button>
                         </Grid>                        
                     </Border>                    
                 </DataTemplate>
@@ -68,6 +70,7 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
             <Button Content="Добавить" x:Name="ButtonAddAgent" Click="ButtonAddAgent_Click"></Button>
             <Button Content="Удалить" x:Name="ButtonDeleteAgent" Click="ButtonDeleteAgent_Click"></Button>
+            <Button Content="Изменить приоритет" x:Name="ButtonChangePriority" Click="ButtonChangePriority_Click" Visibility="Hidden"></Button>
         </StackPanel>
     </Grid>
 </Window>
