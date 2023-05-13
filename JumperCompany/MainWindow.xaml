@@ -1,0 +1,73 @@
+﻿<Window x:Class="JumperCompany.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        xmlns:local="clr-namespace:JumperCompany"
+        mc:Ignorable="d"
+        Title="MainWindow" MinHeight="600" MinWidth="1000">
+    <Window.Resources>
+        <system:String x:Key="NullImage">
+            pack://application:,,,/Resources/picture.png
+        </system:String>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Rectangle Fill="{StaticResource AdditionalColor}"></Rectangle>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBox x:Name="textBoxSearchAgents" TextChanged="textBoxSearchAgents_TextChanged"></TextBox>
+            <ComboBox x:Name="comboAgentTypesFilter" SelectionChanged="comboAgentTypesFilter_SelectionChanged" ></ComboBox>
+            <ComboBox x:Name="comboAgentSort" SelectionChanged="comboAgentSort_SelectionChanged" Width="500"></ComboBox>
+        </StackPanel>
+        <ListView x:Name="listViewAgents" Grid.Row="1">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" HorizontalAlignment="Center"></WrapPanel>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black" BorderThickness="2 2 2 2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Image Height="100" Width="200" Grid.Column="0" Source="{Binding AgentLogoPath, FallbackValue={StaticResource NullImage}}" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+                            <StackPanel Grid.Column="1" Margin="10">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding AgentType.TypeName}"></TextBlock>
+                                    <TextBlock Text=" | "></TextBlock>
+                                    <TextBlock Text="{Binding AgentName}"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding AgentSalesForYear}"></TextBlock>
+                                    <TextBlock Text=" продаж за год"></TextBlock>
+                                </StackPanel>
+                                <TextBlock Text="{Binding Phone}"></TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Приоритетность: "></TextBlock>
+                                    <TextBlock Text="{Binding Priority}"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+                                <TextBlock Text="{Binding AgentDiscountAmount}"></TextBlock>
+                                <TextBlock Text="%"></TextBlock>
+                            </StackPanel>
+                        </Grid>                        
+                    </Border>                    
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Rectangle Fill="{StaticResource AdditionalColor}" Grid.Row="2"></Rectangle>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
+            <Button Content="Добавить" x:Name="ButtonAddAgent" Click="ButtonAddAgent_Click"></Button>
+            <Button Content="Удалить" x:Name="ButtonDeleteAgent" Click="ButtonDeleteAgent_Click"></Button>
+        </StackPanel>
+    </Grid>
+</Window>
